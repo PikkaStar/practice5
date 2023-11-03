@@ -6,42 +6,89 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <script src="https://kit.fontawesome.com/6726daaf8d.js" crossorigin="anonymous"></script>
+    <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>
     <header>
       <% if user_signed_in? %>
-      <span><%= link_to "Bookers",root_path %></span>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+      <span><%= link_to root_path,class: "navbar-brand" do %>Bookers
+      <% end %>
+      </span>
+      <ul class="navbar-nav ml-auto">
       <li>
-        <%= link_to "Home",user_path(current_user) %>
+        <%= link_to user_path(current_user),class: "nav-link text-light" do %>
+        <i class="fa-solid fa-home"></i>Homes
+        <% end %>
       </li>
       <li>
-        <%= link_to "Users",users_path %>
+        <%= link_to users_path,class: "nav-link text-light" do %>
+        <i class="fa-solid fa-users"></i>Users
+        <% end %>
       </li>
       <li>
-        <%= link_to "Books",books_path %>
+        <%= link_to books_path,class: "nav-link text-light" do %>
+        <i class="fa-solid fa-book-open"></i>Books
+        <% end %>
       </li>
       <li>
-      <%= link_to "Log out",destroy_user_session_path,method: :delete %>
+      <%= link_to destroy_user_session_path,method: :delete,class: "nav-link text-light" do %>
+      <i class="fa-solid fa-sign-out-alt"></i>Log out
+      <% end %>
       </li>
+      </ul>
+      </div>
+      </nav>
       <% else %>
-      <span><%= link_to "Bookers",root_path %></span>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+      <span><%= link_to root_path,class: "navbar-brand" do %>Bookers
+      <% end %>
+      </span>
+      <ul class="navbar-nav ml-auto">
       <li>
-        <%= link_to "Home",root_path %>
+        <%= link_to root_path,class: "nav-link text-light" do %>
+        <i class="fa-solid fa-home"></i>Homes
+        <% end %>
       </li>
       <li>
-        <%= link_to "About",about_path %>
+        <%= link_to about_path,class: "nav-link text-light" do %>
+        <i class="fa-solid fa-link"></i>About
+        <% end %>
+      </li>
+       <li>
+        <%= link_to new_user_registration_path,class: "nav-link text-light" do %>
+        <i class="fa-solid fa-user-plus"></i>Sign up
+        <% end %>
       </li>
       <li>
-      <%= link_to "Sign in",new_user_session_path %>
+      <%= link_to new_user_session_path,class: "nav-link text-light" do %>
+      <i class="fa-solid fa-sign-in-alt"></i>Log in
+      <% end %>
       </li>
-      <li>
-        <%= link_to "Sign up",new_user_registration_path %>
-      </li>
+      </ul>
+      </div>
+      </nav>
       <% end %>
     </header>
+    <div class="flash-notifications">
+  <% flash.each do |key, value| %>
+   <%= content_tag(:div, value, class: key) %>
+  <% end %>
+    </div>
     <%= yield %>
+    <footer>
+      <div class="container mt-5">
+        <div class="row">
+          <div class="mx-auto">
+            <p>CopyRight Infratop.inc</p>
+          </div>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>
