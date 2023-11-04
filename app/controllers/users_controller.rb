@@ -27,6 +27,12 @@ class UsersController < ApplicationController
   end
   end
 
+  def favorite
+    @user = User.find(params[:id])
+    favorites = Favorite.where(user_id: @user.id).pluck(:book_id)
+    @favorite_books = Book.find(favorites)
+  end
+
   private
   def user_params
     params.require(:user).permit(:name,:introduction,:profile_image)

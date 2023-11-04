@@ -10,6 +10,14 @@
     <th>Introduction</th>
     <td><%= user.introduction %></td>
   </tr>
+  <tr>
+    <th>Favorites</th>
+    <td>
+      <%= link_to favorite_user_path(user.id) do %>
+      <%= user.favorites.count %>いいね
+      <% end %>
+      </td>
+  </tr>
 </table>
 <div class="row">
   <%= link_to edit_user_path(user.id),class: "btn btn-outline-secondary btn-block" do %>

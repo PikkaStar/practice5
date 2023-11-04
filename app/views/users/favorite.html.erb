@@ -1,0 +1,17 @@
+<h1>いいね一覧</h1>
+<table class="table">
+  <tr>
+    <th>Image</th>
+    <th>Name</th>
+    <th>Title</th>
+    <th>Opinion</th>
+  </tr>
+  <% @favorite_books.each do |book| %>
+  <tr>
+    <td><%= image_tag book.user.get_profile_image(100,100) %></td>
+    <td><%= book.user.name %></td>
+    <td><%= book.title %></td>
+    <td><%= book.body %></td>
+  </tr>
+  <% end %>
+</table>
