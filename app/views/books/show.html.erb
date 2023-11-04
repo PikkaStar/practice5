@@ -12,7 +12,11 @@
     <th>Image</th>
     <th>Title</th>
     <th>Opinion</th>
+    <% unless @book.user_id == current_user.id %>
     <th colspan="2"></th>
+    <% else %>
+    <th colspan="4"></th>
+    <% end %>
   </tr>
   <tr>
     <td><%= image_tag @book.user.get_profile_image(100,100) %></td>

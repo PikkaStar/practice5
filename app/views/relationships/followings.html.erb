@@ -1,0 +1,14 @@
+<h1>フォロー一覧</h1>
+<table class="table">
+  <tr>
+    <th>Image</th>
+    <th>Name</th>
+    <th></th>
+  </tr>
+  <% @users.each do |user| %>
+  <tr>
+    <td><%= image_tag user.get_profile_image(100,100) %></td>
+    <td><%= link_to user.name,user_path(user.id) %></td>
+  </tr>
+  <% end %>
+</table>
