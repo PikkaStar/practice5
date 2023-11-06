@@ -3,12 +3,14 @@
   <tr>
     <th>Image</th>
     <th>Name</th>
-    <th></th>
+    <th colspan="2"></th>
   </tr>
   <% @users.each do |user| %>
   <tr>
     <td><%= image_tag user.get_profile_image(100,100) %></td>
     <td><%= link_to user.name,user_path(user.id) %></td>
+    <td>フォロー<%= user.followings.count %>人</td>
+    <td>フォロワー<%= user.followers.count %>人</td>
   </tr>
   <% end %>
 </table>

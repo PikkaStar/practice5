@@ -4,7 +4,15 @@ class UsersController < ApplicationController
   def index
     @user = current_user
     @book = Book.new
-    @users = User.all
+    if params[:return_key]
+      @users = User.return_key
+      elsif params[:follow_count]
+      @users = User.follow_count
+      elsif params[:follower_count]
+      @users = User.follower_count
+      else
+      @users = User.all
+    end
   end
 
   def show

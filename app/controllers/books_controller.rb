@@ -18,7 +18,17 @@ before_action :match_user,only: [:edit,:update]
   def index
     @user = current_user
     @book = Book.new
-    @books = Book.all
+    if params[:latest]
+   @books = Book.latest
+ elsif params[:old]
+   @books = Book.old
+ elsif params[:favorite_count]
+   @books = Book.favorite_count
+   elsif params[:comment_count]
+   @books = Book.comment_count
+ else
+   @books = Book.all
+ end
   end
 
   def show

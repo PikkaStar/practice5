@@ -15,6 +15,11 @@ class User < ApplicationRecord
          has_many :followings,through: :relationships,source: :follower
          has_many :followers,through: :reverse_of_relationships,source: :follow
 
+         scope :return_key, -> {order(id: :asc)}
+         scope :follow_count, -> {User.includes(:followings).sort {|a,b| b.followings.size <=> a.followings.size}}
+         scope :follower_count, -> {User.includes(:followers).sort {|a,b| b.followers.size <=> a.followers.size}}
+
+
          def get_profile_image(width,height)
            if profile_image.attached?
              profile_image.variant(resize_to_limit: [width,height]).processed

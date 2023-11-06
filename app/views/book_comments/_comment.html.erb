@@ -1,0 +1,13 @@
+      <table class="table">
+        <% book.book_comments.each do |comment| %>
+        <tr>
+          <td><%= image_tag comment.user.get_profile_image(100,100) %></td>
+          <td><%= link_to comment.user.name,user_path(comment.user_id) %></td>
+          <td><%= comment.comment %></td>
+          <td><%= comment.created_at.strftime("%Y/%m/%d") %></td>
+          <% if comment.user_id == current_user.id %>
+          <td><%= link_to "Destroy",book_book_comment_path(comment.book,comment),remote: true,method: :delete,"data-confirm"=>"本当に削除しますか？",class: "btn btn-danger" %></td>
+          <% end %>
+        </tr>
+        <% end %>
+        </table>
