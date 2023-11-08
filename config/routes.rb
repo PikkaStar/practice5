@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+
   devise_for :users
   get root to: 'homes#top'
   get "home/about"=>'homes#about',as: 'about'
@@ -8,6 +9,7 @@ Rails.application.routes.draw do
     get "followings"=>"relationships#followings",as: "followings"
     get "followers"=>"relationships#followers",as: "followers"
     member do
+      get :groups,as: "group"
       get :favorite
     end
   end
@@ -18,5 +20,8 @@ Rails.application.routes.draw do
   get "searches"=>"searches#search",as: "search"
   resources :messages,only: [:create]
   resources :rooms,only: [:create,:show,:index]
+  resources :groups do
+    resource :group_users,only: [:create,:destroy]
+  end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

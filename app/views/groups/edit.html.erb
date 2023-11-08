@@ -1,0 +1,19 @@
+<div class="container">
+ <div class="row">
+  <div class="col-sm-12 col-md-8 col-lg-5 px-5 px-sm-0 mx-auto">
+ <h1>Editing Group</h1>
+ <%= form_with model: @group do |f| %>
+ <%= f.label :group_name %>
+<%= f.text_field :name,autofocus: true,class: "form-control" %>
+<%= f.label :introduction %>
+<%= f.text_area :introduction,class: "form-control" %>
+<p>group_image</p>
+<%= f.file_field :group_image,accept: "image/*" %><br>
+<div class="text-center">
+<%= f.submit "Update group",class: "mt-5 btn btn-primary" %>
+</div>
+<% end %>
+
+  </div>
+ </div>
+</div>

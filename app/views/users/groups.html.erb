@@ -1,0 +1,15 @@
+<h1>参加してるグループ一覧</h1>
+<table class="table">
+  <tr>
+    <th>Image</th>
+    <th>Group Name</th>
+    <th>Owner Name</th>
+  </tr>
+  <% @groups.each do |group| %>
+    <tr>
+      <td><%= image_tag group.get_group_image(100,100) %></td>
+      <td><%= link_to group.name,group_path(group.id) %></td>
+      <td><%= link_to group.user.name,user_path(group.user_id) %></td>
+    </tr>
+  <% end %>
+</table>

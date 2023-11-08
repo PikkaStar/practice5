@@ -1,0 +1,57 @@
+<div class="container px-5 px-sm-0">
+ <div class="row">
+  <div class="col-md-3">
+   <%= render "users/user_info",user: @user,isRoom: @isRoom,room: @room,entry: @entry,roomId: @roomId %>
+   <h1>New Book</h1>
+<%= render "books/new",book: @book %>
+  </div>
+ <div class="col-md-8 offset-md-1">
+   <h1>
+     <%= @group.name %>
+     <% unless @group.user_id == current_user.id %>
+   <% if @group.includesUser?(current_user)%>
+　　<%= link_to 'Leave this group', group_group_users_path(@group), method: :delete, class: "btn btn-sm btn-danger" %>
+   <% else %>
+　　<%= link_to 'Join this group', group_group_users_path(@group), method: :post, class: "btn btn-sm btn-success" %>
+   <% end %>
+   <% end %>
+   </h1>
+   <table class="table">
+     <tr>
+       <th>Image</th>
+       <th>Owner Name</th>
+       <th>Introduction</th>
+       <th></th>
+       <% if @group.user_id == current_user.id %>
+       <th></th>
+        <% end %>
+     </tr>
+     <tr>
+       <td><%= image_tag @group.get_group_image(100,100) %></td>
+       <td><%= link_to @group.user.name,user_path(@group.user.id) %></td>
+       <td><%= @group.introduction %></td>
+         <% if @group.user_id == current_user.id %>
+         <td><%= link_to "Edit",edit_group_path(@group.id),class: "btn btn-success" %></td>
+         <td><%= link_to "Destroy",group_path(@group.id),method: :delete,"data-confirm"=>"本当に削除しますか？",class: "btn btn-danger" %></td>
+         <% else %>
+         <td></td>
+         <% end %>
+
+     </tr>
+   </table>
+   <h2>メンバー一覧</h2>
+   <table class="table">
+     <tr>
+       <td><%= image_tag @group.user.get_profile_image(100,100) %></td>
+       <td><%= link_to @group.user.name,user_path(@group.user.id) %></td>
+     </tr>
+     <% @group.users.each do |user| %>
+     <tr>
+       <td><%= image_tag user.get_profile_image(100,100) %></td>
+       <td><%= link_to user.name,user_path(user.id) %></td>
+     </tr>
+     <% end %>
+   </table>
+   </div>
+ </div>
+</div>

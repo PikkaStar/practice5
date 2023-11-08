@@ -12,7 +12,7 @@
     <td><%= link_to user.name,user_path(user.id) %></td>
   </tr>
   <% end %>
-  <% else %>
+  <% elsif @range == "Book" %>
   <h3><%= @word %>を含む投稿</h3>
   <tr>
     <th>Image</th>
@@ -24,6 +24,20 @@
     <td><%= image_tag book.user.get_profile_image(100,100) %></td>
     <td><%= link_to book.user.name,user_path(book.user.id) %></td>
     <td><%= link_to book.title,book_path(book.id) %></td>
+  </tr>
+  <% end %>
+  <% else %>
+  <h3><%= @word %>を含むグループ</h3>
+  <tr>
+    <th>Group Image</th>
+    <th>Group Name</th>
+    <th>Owner Name</th>
+  </tr>
+  <% @groups.each do |group| %>
+  <tr>
+    <td><%= image_tag group.get_group_image(100,100) %></td>
+    <td><%= link_to group.name,group_path(group.id) %></td>
+    <td><%= link_to group.user.name,user_path(group.user.id) %></td>
   </tr>
   <% end %>
   <% end %>

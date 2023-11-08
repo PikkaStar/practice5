@@ -57,6 +57,11 @@ class UsersController < ApplicationController
     @favorite_books = Book.find(favorites)
   end
 
+  def groups
+    @user = User.find(params[:id])
+    @groups = @user.groups
+  end
+
   private
   def user_params
     params.require(:user).permit(:name,:introduction,:profile_image)
