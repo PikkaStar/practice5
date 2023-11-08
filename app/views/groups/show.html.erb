@@ -8,13 +8,29 @@
  <div class="col-md-8 offset-md-1">
    <h1>
      <%= @group.name %>
-     <% unless @group.user_id == current_user.id %>
-   <% if @group.includesUser?(current_user)%>
-　　<%= link_to 'Leave this group', group_group_users_path(@group), method: :delete, class: "btn btn-sm btn-danger" %>
-   <% else %>
-　　<%= link_to 'Join this group', group_group_users_path(@group), method: :post, class: "btn btn-sm btn-success" %>
-   <% end %>
-   <% end %>
+     <% if @group.owner_id == current_user.id %>
+    <div class="dropdown">
+    <button class="btn btn-sm btn-secondary dropdown-toggle"
+            type="button" id="dropdownMenu1" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+      オーナー専用
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
+      <%= link_to "承認待ち一覧", permits_path(@group),  class: "dropdown-item text-secondary bg-transparent" %>
+      <%= link_to 'グループ編集', edit_group_path(@group),  class: "dropdown-item text-success bg-transparent" %>
+      <%= link_to 'グループ削除', group_path(@group), method: :delete,  class: "dropdown-item text-danger bg-transparent", data: { confirm: "本当に削除しますか？" } %>
+    </div>
+  </div>
+<% end %>
+   <% unless @group.user_id == current_user.id %>
+     <% if @group.group_users.exists?(user_id: current_user.id) %>
+　　　　<%= link_to 'グループ退出', group_group_users_path(@group), method: :delete, class: "btn btn-sm btn-danger", data: { confirm: "本当にグループを退出しますか？" } %>
+ <% elsif @group.permits.exists?(user_id: current_user.id) %>
+　　　　<%= link_to '申請取消', group_permits_path(@group), method: :delete, class: "btn btn-sm btn-danger" %>
+ <% else %>
+　　　　<%= link_to '加入申請', group_permits_path(@group), method: :post, class: "btn btn-sm btn-success" %>
+ <% end %>
+ <% end %>
    </h1>
    <table class="table">
      <tr>
@@ -29,14 +45,7 @@
      <tr>
        <td><%= image_tag @group.get_group_image(100,100) %></td>
        <td><%= link_to @group.user.name,user_path(@group.user.id) %></td>
-       <td><%= @group.introduction %></td>
-         <% if @group.user_id == current_user.id %>
-         <td><%= link_to "Edit",edit_group_path(@group.id),class: "btn btn-success" %></td>
-         <td><%= link_to "Destroy",group_path(@group.id),method: :delete,"data-confirm"=>"本当に削除しますか？",class: "btn btn-danger" %></td>
-         <% else %>
-         <td></td>
-         <% end %>
-
+       <td colspan="3"><%= @group.introduction %></td>
      </tr>
    </table>
    <h2>メンバー一覧</h2>

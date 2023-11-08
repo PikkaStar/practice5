@@ -2,6 +2,7 @@ class Group < ApplicationRecord
   has_many :group_users,dependent: :destroy
   has_many :users,through: :group_users,source: :user
   belongs_to :user
+  has_many :permits,dependent: :destroy
 
   validates :name, presence: true
   validates :introduction, presence: true
@@ -18,7 +19,7 @@ class Group < ApplicationRecord
          def includesUser?(user)
            group_users.exists?(user_id: user.id)
          end
-         
+
          def self.looks(search,word)
            if search == "perfect_match"
               @groups = Group.where("name LIKE?","#{word}")

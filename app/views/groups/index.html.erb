@@ -13,7 +13,9 @@
        <th>Group Name</th>
        <th>Owner Name</th>
        <th>Member</th>
+       <th>Wait</th>
        <th>Created</th>
+
      </tr>
      <% @groups.each do |group| %>
      <tr>
@@ -21,6 +23,7 @@
        <td><%= link_to group.name,group_path(group.id) %></td>
        <td><%= link_to group.user.name,user_path(group.user_id) %></td>
        <td><%= group.group_users.count+1 %>人</td>
+       <td><%= group.permits.count %></td>
        <td><%= group.created_at.strftime('%Y/%m/%d') %></td>
      </tr>
      <% end %>

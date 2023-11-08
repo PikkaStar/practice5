@@ -64,6 +64,11 @@ class GroupsController < ApplicationController
     redirect_to groups_path
   end
 
+  def permits
+    @group = Group.find(params[:id])
+    @permits = @group.permits.page(params[:page])
+  end
+
   private
 
   def group_params
