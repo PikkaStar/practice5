@@ -4,6 +4,9 @@ class Group < ApplicationRecord
   belongs_to :user
   has_many :permits,dependent: :destroy
 
+  has_many :group_messages,dependent: :destroy
+
+
   validates :name, presence: true
   validates :introduction, presence: true
   has_one_attached :group_image

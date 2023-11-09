@@ -1,0 +1,21 @@
+<% if messages.present? %>
+<% messages.reverse_each do |m| %>
+<% if m.user_id == current_user.id %>
+<div class="col-4">
+<%= m.user.name %>
+<div class="p-2 border rounded border-primary">
+<%= m.message %>
+</div>
+<%= m.created_at.strftime("%Y/%m/%d %H:%M:%S") %>
+</div>
+<% else %>
+<div class="col-4 offset-8">
+  <%= m.user.name %>
+  <div class="p-2 border rounded  border-primary">
+<%= m.message %>
+</div>
+<%= m.created_at.strftime("%Y/%m/%d %H:%M:%S") %>
+</div>
+<% end %>
+<% end %>
+<% end %>
