@@ -1,5 +1,20 @@
 class RoomsController < ApplicationController
 
+  def new
+    @users = User.all
+    @current_room = Room.find(params[:id])
+    @entry = Entry.new
+  end
+
+  def room_add_user
+    entry = Entry.new(entry_params)
+    if entry.save
+      redirect_to room_path(entry.room_id)
+    else
+      redirect_to new_room_path(entry.room_id)
+    end
+  end
+
   def create
   @room = Room.create(user_id: current_user.id)
   current_entry = Entry.create(room_id: @room.id,user_id: current_user.id)
@@ -16,6 +31,11 @@ class RoomsController < ApplicationController
     else
       redirect_back(fallback_location: root_path)
     end
+  end
+
+  private
+  def entry_params
+    params.require(:entry).permit(:user_id,:room_id)
   end
 
 end

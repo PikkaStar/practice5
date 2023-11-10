@@ -8,6 +8,7 @@
  <div class="col-md-8 offset-md-1">
    <h1>
      <%= @group.name %>
+     </h1>
      <% if @group.owner_id == current_user.id %>
     <div class="dropdown">
     <button class="btn btn-sm btn-secondary dropdown-toggle"

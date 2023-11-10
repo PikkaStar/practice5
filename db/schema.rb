@@ -83,16 +83,15 @@ ActiveRecord::Schema.define(version: 2023_11_09_001716) do
 
   create_table "group_messages", force: :cascade do |t|
     t.integer "user_id", null: false
-    t.integer "group_id", null: false
     t.text "message"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["group_id"], name: "index_group_messages_on_group_id"
     t.index ["user_id"], name: "index_group_messages_on_user_id"
   end
 
   create_table "group_rooms", force: :cascade do |t|
     t.integer "user_id", null: false
+    t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_group_rooms_on_user_id"
@@ -171,7 +170,6 @@ ActiveRecord::Schema.define(version: 2023_11_09_001716) do
   add_foreign_key "entries", "users"
   add_foreign_key "group_entries", "group_rooms"
   add_foreign_key "group_entries", "users"
-  add_foreign_key "group_messages", "groups"
   add_foreign_key "group_messages", "users"
   add_foreign_key "group_rooms", "users"
   add_foreign_key "messages", "rooms"

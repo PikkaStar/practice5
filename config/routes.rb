@@ -26,5 +26,8 @@ Rails.application.routes.draw do
     resource :group_users,only: [:create,:destroy]
   end
   get "groups/:id/permits" => "groups#permits", as: :permits
+  get "rooms/new/:id" => "rooms#new",as: "new_room"
+  post "entry" => "rooms#room_add_user"
+
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
