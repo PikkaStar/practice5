@@ -1,6 +1,6 @@
 <div class="container">
-  <%= link_to "参加者追加",new_room_path(@room.id) %>
-  <%= form_for @message do |f| %>
+
+  <%= form_for @message,local: false do |f| %>
 <%= f.text_field :message,class: "form-control", id: "chat_field" %>
 <%= f.hidden_field :room_id,value: @room.id %>
 <%= f.submit "投稿",class: "btn btn-primary" %>
@@ -23,26 +23,8 @@
 <% end %>
 <% end %>
 </div>
-<% if @messages.present? %>
-<% @messages.reverse_each do |m| %>
-<% if m.user_id == current_user.id %>
-<div class="col-4">
-<%= m.user.name %>
-<div class="p-2 border rounded border-primary">
-<%= m.message %>
+<div id="messages">
+<%= render 'messages/message',messages: @messages %>
 </div>
-<%= m.created_at.strftime("%Y/%m/%d %H:%M:%S") %>
-</div>
-<% else %>
-<div class="col-4 offset-8">
-  <%= m.user.name %>
-  <div class="p-2 border rounded  border-primary">
-<%= m.message %>
-</div>
-<%= m.created_at.strftime("%Y/%m/%d %H:%M:%S") %>
-</div>
-<% end %>
-<% end %>
-<% end %>
 </div>
 </div>

@@ -13,10 +13,12 @@ class User < ApplicationRecord
          has_many :messages,dependent: :destroy
 
          has_many :group_users,dependent: :destroy
-         has_many :groups,through: :group_users
+         has_many :groups,through: :group_users,dependent: :destroy
+         has_many :group_messages,dependent: :destroy
+
          has_many :owned_groups, class_name: "Group"
          has_many :permits,dependent: :destroy
-         
+
          has_many :relationships,foreign_key: "follow_id",dependent: :destroy
          has_many :reverse_of_relationships,class_name: "Relationship",foreign_key: "follower_id",dependent: :destroy
          has_many :followings,through: :relationships,source: :follower

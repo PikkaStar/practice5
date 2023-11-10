@@ -1,19 +1,5 @@
 class RoomsController < ApplicationController
 
-  def new
-    @users = User.all
-    @current_room = Room.find(params[:id])
-    @entry = Entry.new
-  end
-
-  def room_add_user
-    entry = Entry.new(entry_params)
-    if entry.save
-      redirect_to room_path(entry.room_id)
-    else
-      redirect_to new_room_path(entry.room_id)
-    end
-  end
 
   def create
   @room = Room.create(user_id: current_user.id)
