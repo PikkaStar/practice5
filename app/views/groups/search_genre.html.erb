@@ -1,0 +1,19 @@
+<h2>ジャンルが<%= @genre.genre_name %>のグループ一覧</h2>
+<% @genre_list.each do |list| %>
+<%= link_to list.genre_name,search_genre_path(genre_id: list.id) %>
+(<%= list.group_genres.count %>)
+<% end %>
+<table class="table table-striped">
+  <tr>
+    <th>Image</th>
+    <th>GroupName</th>
+    <th>OwnerName</th>
+  </tr>
+  <% @groups.each do |group| %>
+  <tr>
+    <td><%= image_tag group.get_group_image(100,100) %></td>
+    <td><%= link_to group.name,group_path(group.id) %></td>
+    <td><%= link_to group.user.name,user_path(group.user.id) %></td>
+  </tr>
+  <% end %>
+</table>

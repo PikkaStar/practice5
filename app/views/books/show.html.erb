@@ -7,6 +7,11 @@
 </div>
 <div class="col-md-8 offset-md-1">
 <h1>Book detail</h1>
+ <!-- タグリスト -->
+      <% @book_tags.each do |tag| %>
+      <i class="fa-sharp fa-solid fa-tag"></i>
+        <%= link_to tag.name,search_tag_path(tag_id: tag.id) %>
+      <% end %>
 <table class="table table-striped">
   <tr>
     <th>Image</th>
@@ -25,9 +30,13 @@
     <td id="comment_counter">
       <%= render "book_comments/comment_count",book: @book %>
       </td>
+      <% unless @book.user_id == current_user.id %>
     <td id="favorite_btn_<%= @book.id %>">
    <%= render "favorites/favorite",book: @book %>
    </td>
+   <% else %>
+   <td>♥<%= @book.favorites.count %>いいね</td>
+   <% end %>
     <% if @book.user_id == current_user.id %>
     <td><%= link_to "Edit",edit_book_path(@book),class: "btn btn-success" %></td>
     <td><%= link_to "Destroy",book_path(@book),method: :delete,"data-confirm"=>"本当に削除しますか？",class: "btn btn-danger" %></td>

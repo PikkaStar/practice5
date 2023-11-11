@@ -6,6 +6,11 @@
 <%= render "new",book: @book %>
 </div>
 <div class="col-md-8 offset-md-1">
+  <% @tag_list.each do |list|%>
+    <i class="fa-sharp fa-solid fa-tag"></i>
+    <%=link_to list.name,search_tag_path(tag_id: list.id) %>
+    (<%= list.book_tags.count %>)
+  <% end %>
 <h1>Books</h1>
  <%= link_to '新しい順', books_path(latest: "true") %>
 |<%= link_to '古い順', books_path(old: "true") %>
@@ -29,9 +34,13 @@
     <td><%= link_to book.title,book_path(book.id) %></td>
     <td><%= book.body %></td>
     <td>コメント<%= book.book_comments.count %>件</td>
+    <% unless book.user_id == current_user.id %>
     <td id="favorite_btn_<%= book.id %>">
    <%= render "favorites/favorite",book: book %>
    </td>
+   <% else %>
+   <td>♥<%= book.favorites.count %>いいね</td>
+   <% end %>
    <td><%= book.created_at.strftime("%Y/%m/%d") %></td>
   </tr>
   <% end %>

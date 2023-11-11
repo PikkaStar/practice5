@@ -6,6 +6,10 @@
 <%= render "books/new",book: @book %>
   </div>
  <div class="col-md-8 offset-md-1">
+  <% @group_genres.each do |genre| %>
+  <i class="fa-sharp fa-solid fa-tag"></i>
+  <%= link_to genre.genre_name,search_genre_path(genre_id: genre.id) %>
+  <% end %>
    <h1>
      <%= @group.name %>
      </h1>

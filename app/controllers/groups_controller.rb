@@ -9,7 +9,9 @@ class GroupsController < ApplicationController
     @group = Group.new(group_params)
     @group.owner_id = current_user.id
     @group.user_id = current_user.id
+    genre_list = params[:group][:genre_name].split(",")
     if @group.save
+      @group.save_genres(genre_list)
       redirect_to groups_path
     else
       render :new
@@ -20,13 +22,17 @@ class GroupsController < ApplicationController
     @book = Book.new
     @groups = Group.all
     @user = User.find(current_user.id)
+    @genre_list = Genre.all
   end
 
   def show
     @user = current_user
     @book = Book.new
     @group = Group.find(params[:id])
-    user = User.find(params[:id])
+    @genre_list = @group.genres.pluck(:genre_name).join(',')
+    @group_genres = @group.genres
+    user = User.find_by(id: params[:id])
+    if user
     @currentUserEntry = Entry.where(user_id: current_user.id)
     @userEntry = Entry.where(user_id: user.id)
     unless user.id == current_user.id
@@ -43,15 +49,20 @@ class GroupsController < ApplicationController
         @entry = Entry.new
       end
     end
+  else
+  end
   end
 
   def edit
     @group = Group.find(params[:id])
+    @genre_list = @group.genres.pluck(:genre_name).join(',')
   end
 
   def update
     @group = Group.find(params[:id])
+    genre_list = params[:group][:genre_name].split(',')
     if @group.update(group_params)
+      @group.save_genres(genre_list)
     redirect_to groups_path
     else
     render :edit
@@ -67,6 +78,12 @@ class GroupsController < ApplicationController
   def permits
     @group = Group.find(params[:id])
     @permits = @group.permits.page(params[:page])
+  end
+
+  def search_genre
+    @genre_list = Genre.all
+    @genre = Genre.find(params[:genre_id])
+    @groups = @genre.groups
   end
 
   private

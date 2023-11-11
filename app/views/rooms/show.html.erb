@@ -1,6 +1,6 @@
 <div class="container">
 
-  <%= form_for @message,local: false do |f| %>
+  <%= form_for @message do |f| %>
 <%= f.text_field :message,class: "form-control", id: "chat_field" %>
 <%= f.hidden_field :room_id,value: @room.id %>
 <%= f.submit "投稿",class: "btn btn-primary" %>

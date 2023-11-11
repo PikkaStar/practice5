@@ -4,7 +4,9 @@ before_action :match_user,only: [:edit,:update]
   def create
     @book = Book.new(book_params)
     @book.user_id = current_user.id
+    tag_list = params[:book][:name].split(',')
     if @book.save
+      @book.save_tags(tag_list)
       flash[:notice] = "successfully"
     redirect_to book_path(@book.id)
   else
@@ -29,10 +31,13 @@ before_action :match_user,only: [:edit,:update]
  else
    @books = Book.all
  end
+   @tag_list = Tag.all
   end
 
   def show
     @book = Book.find(params[:id])
+    @tag_list = @book.tags.pluck(:name).join(',')
+    @book_tags = @book.tags
     @book_new = Book.new
     @user = @book.user
     @comment = BookComment.new
@@ -56,11 +61,14 @@ before_action :match_user,only: [:edit,:update]
 
   def edit
     @book = Book.find(params[:id])
+    @tag_list = @book.tags.pluck(:name).join(',')
   end
 
   def update
     @book = Book.find(params[:id])
+    tag_list = params[:book][:name].split(',')
     if @book.update(book_params)
+       @book.save_tags(tag_list)
       flash[:notice] = "successfully"
     redirect_to book_path(@book)
   else
@@ -72,6 +80,12 @@ before_action :match_user,only: [:edit,:update]
     @book = Book.find(params[:id])
     @book.destroy
     redirect_to books_path
+  end
+
+  def search_tag
+    @tag_list = Tag.all
+    @tag = Tag.find(params[:tag_id])
+    @books = @tag.books
   end
 
   private

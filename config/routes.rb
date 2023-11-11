@@ -27,7 +27,8 @@ Rails.application.routes.draw do
     resource :group_users,only: [:create,:destroy]
   end
   get "groups/:id/permits" => "groups#permits", as: :permits
-
+  get "search_tag" => "books#search_tag"
+  get 'search_genre' => 'groups#search_genre'
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

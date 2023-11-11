@@ -2,11 +2,10 @@ class Group < ApplicationRecord
   has_many :group_users,dependent: :destroy
   has_many :users,through: :group_users,source: :user
   belongs_to :user
-  has_many :group_messages,dependent: :destroy
   has_many :permits,dependent: :destroy
 
-  has_many :group_messages,dependent: :destroy
-
+  has_many :group_genres,dependent: :destroy
+  has_many :genres,through: :group_genres
 
   validates :name, presence: true
   validates :introduction, presence: true
@@ -22,6 +21,20 @@ class Group < ApplicationRecord
 
          def includesUser?(user)
            group_users.exists?(user_id: user.id)
+         end
+
+         def save_genres(genres)
+           current_genres = self.genres.pluck(:genre_name) unless self.genres.nil?
+           old_genres = current_genres - genres
+           new_genres = genres - current_genres
+
+           old_genres.each do |old_name|
+             self.genres.delete Genre.find_by(genre_name: old_name)
+           end
+           new_genres.each do |new_name|
+             genre = Genre.find_or_create_by(genre_name: new_name)
+             self.genres << genre
+           end
          end
 
          def self.looks(search,word)
