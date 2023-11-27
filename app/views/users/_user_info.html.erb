@@ -44,8 +44,10 @@
 
 <div class="row">
   <% if user.id == current_user.id %>
+  <% unless user.guest_user? %>
   <%= link_to edit_user_path(user.id),class: "btn btn-outline-secondary btn-block" do %>
   <i class="fas fa-user-cog"></i>
+  <% end %>
   <% end %>
   <% else %>
   <% if current_user.following?(user) %>

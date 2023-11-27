@@ -1,5 +1,4 @@
 class PermitsController < ApplicationController
-
   before_action :authenticate_user!
 
   def create
@@ -14,5 +13,4 @@ class PermitsController < ApplicationController
     permit.destroy
     redirect_to request.referer, alert: "グループへの参加申請を取消しました"
   end
-
 end

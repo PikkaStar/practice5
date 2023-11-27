@@ -1,6 +1,6 @@
 class GroupsController < ApplicationController
   before_action :authenticate_user!
-  before_action :ensure_correct_user,only: [:edit,:update,:destroy]
+  before_action :ensure_correct_user, only: [:edit, :update, :destroy]
   def new
     @group = Group.new
   end
@@ -29,43 +29,43 @@ class GroupsController < ApplicationController
     @user = current_user
     @book = Book.new
     @group = Group.find(params[:id])
-    @genre_list = @group.genres.pluck(:genre_name).join(',')
+    @genre_list = @group.genres.pluck(:genre_name).join(",")
     @group_genres = @group.genres
     user = User.find_by(id: params[:id])
     if user
-    @currentUserEntry = Entry.where(user_id: current_user.id)
-    @userEntry = Entry.where(user_id: user.id)
-    unless user.id == current_user.id
-      @currentUserEntry.each do |cu|
-        @userEntry.each do |u|
-          if cu.room_id == u.room_id
-            @isRoom = true
-            @roomId = cu.room_id
+      @currentUserEntry = Entry.where(user_id: current_user.id)
+      @userEntry = Entry.where(user_id: user.id)
+      unless user.id == current_user.id
+        @currentUserEntry.each do |cu|
+          @userEntry.each do |u|
+            if cu.room_id == u.room_id
+              @isRoom = true
+              @roomId = cu.room_id
+            end
           end
         end
+        unless @isRoom
+          @room = Room.new
+          @entry = Entry.new
+        end
       end
-      unless @isRoom
-        @room = Room.new
-        @entry = Entry.new
-      end
+    else
     end
-  else
-  end
   end
 
   def edit
     @group = Group.find(params[:id])
-    @genre_list = @group.genres.pluck(:genre_name).join(',')
+    @genre_list = @group.genres.pluck(:genre_name).join(",")
   end
 
   def update
     @group = Group.find(params[:id])
-    genre_list = params[:group][:genre_name].split(',')
+    genre_list = params[:group][:genre_name].split(",")
     if @group.update(group_params)
       @group.save_genres(genre_list)
-    redirect_to groups_path
+      redirect_to groups_path
     else
-    render :edit
+      render :edit
     end
   end
 
@@ -87,15 +87,14 @@ class GroupsController < ApplicationController
   end
 
   private
+    def group_params
+      params.require(:group).permit(:name, :introduction, :group_image)
+    end
 
-  def group_params
-  params.require(:group).permit(:name,:introduction,:group_image)
-  end
-
-  def ensure_correct_user
+    def ensure_correct_user
       @group = Group.find(params[:id])
       unless @group.owner_id == current_user.id
         redirect_to groups_path
       end
-      end
-  end
+        end
+end

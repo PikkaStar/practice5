@@ -9,9 +9,7 @@ class GroupMessagesController < ApplicationController
   end
 
   private
-
-  def chat_params
-    params.require(:group_message).permit(:message)
-  end
-
+    def chat_params
+      params.require(:group_message).permit(:message)
+    end
 end
