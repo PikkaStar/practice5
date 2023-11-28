@@ -44,5 +44,26 @@ class Book < ApplicationRecord
     else
       @book = Book.all
     end
-      end
+  end
+
+  # postへのいいね通知機能
+ def create_notification_favorite_book!(current_user)
+   # 同じユーザーが同じ投稿に既にいいねしていないかを確認
+   existing_notification = Notification.find_by(book_id: self.id, visitor_id: current_user.id, action: "favorite_book")
+
+   # すでにいいねされていない場合のみ通知レコードを作成
+   if existing_notification.nil? && current_user != self.user
+     notification = Notification.new(
+       book_id: self.id,
+       visitor_id: current_user.id,
+       visited_id: self.user.id,
+       action: "favorite_book"
+     )
+
+     if notification.valid?
+       notification.save
+     end
+   end
+ end
+
 end

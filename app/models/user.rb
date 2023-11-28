@@ -24,6 +24,9 @@ class User < ApplicationRecord
   has_many :followings, through: :relationships, source: :follower
   has_many :followers, through: :reverse_of_relationships, source: :follow
 
+  has_many :active_notifications, class_name: "Notification", foreign_key: "visitor_id", dependent: :destroy
+  has_many :passive_notifications, class_name: "Notification", foreign_key: "visited_id", dependent: :destroy
+
   scope :return_key, -> { order(id: :asc) }
   scope :follow_count, -> { User.includes(:followings).sort { |a, b| b.followings.size <=> a.followings.size } }
   scope :follower_count, -> { User.includes(:followers).sort { |a, b| b.followers.size <=> a.followers.size } }
@@ -75,4 +78,21 @@ class User < ApplicationRecord
   def guest_user?
     email == GUEST_USER_EMAIL
   end
+
+  def create_notification_follow!(current_user)
+    # すでにフォロー通知が存在するか検索
+
+    existing_notification = Notification.find_by(visitor_id: current_user.id, visited_id: self.id, action: 'follow')
+
+    # フォロー通知が存在しない場合のみ、通知レコードを作成
+    if existing_notification.blank?
+      notification = current_user.active_notifications.build(
+        visited_id: self.id,
+        action: 'follow'
+      )
+      notification.save if notification.valid?
+    end
+  end
+
+
 end
